@@ -1,0 +1,78 @@
+Vue.createApp({
+    data(){
+      return{
+          one:{},
+          two:{},
+          three:{},
+          newMsg:{},
+          isNewCapable: 1,
+          org:'',
+          updateInfo:'',
+          updateData:'',
+          delInfo:''
+      }
+    },
+    created(){
+        axios({
+            url:"./getData",
+            method:'post'
+        }).then(res=>{
+            res=res.data;
+            this.one = res.one;
+            this.two=res.two;
+            this.three=res.three;
+        })
+    },
+    methods:{
+        transferTo(id){
+            location.href = "./xx/" + id;
+        },
+        update(){
+            axios({
+                url:"./update",
+                method:"post",
+                data:{
+                    org:this.org,
+                    info:this.updateInfo,
+                    data:this.updateData
+                }
+            }).then(res=>{
+                if(res.data=="1"){
+                    location.reload()
+                }else{
+                    alert("修改失败，请确认部门名称输入无误");
+                }
+            })
+        },
+        del(){
+            axios({
+                url:"./del",
+                method:"post",
+                data:{
+                    bmmc:this.delInfo
+                }
+            }).then(res=>{
+                if (res.data < 1) {
+                    alert("删除失败，请确认输入信息准确无误");
+                }else {
+                    location.reload();
+                }
+            })
+        },
+        newD(){
+            axios({
+                url:"touch",
+                method:"post",
+                data:{
+                    organization:this.newMsg
+                }
+            }).then(res=>{
+                if(res.data=="1"){
+                    location.reload()
+                }else{
+                    alert("输入信息错误（或格式错误）");
+                }
+            })
+        }
+    }
+}).mount("#all");

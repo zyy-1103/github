@@ -1,0 +1,16 @@
+Vue.createApp({
+    data(){
+        return{
+            s:{}
+        }
+    },
+    created(){
+        axios({
+            url:location.href,
+            method:'post'
+        }).then(res=>{
+            console.log(res.data.data)
+            this.s=res.data.data;
+        })
+    }
+}).mount("#msg")

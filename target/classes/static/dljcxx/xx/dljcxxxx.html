@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>详细</title>
+
+    <link rel="shortcut icon" href="../../img/菠萝.png" >
+    <!-- Bootstrap -->
+    <link type="text/css" rel="stylesheet" href="../../css/bootstrap.min.css" />
+
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <script src="../../js/bootstrap.bundle.min.js"></script>
+<!--    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>-->
+    <script src="../../js/axios.min.js"></script>
+    <script src="../../js/vue.min.js"></script>
+    <style type="text/css">
+        .head {
+            width: 20%;
+            margin-left: 10px;
+            text-align: center;
+            /*font-weight: bold;*/
+        }
+        .tail {
+            width: 80%;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<header id="header">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #e3f2fd;">
+        <a class="navbar-brand" href="/"><h2><img src="../../img/菠萝.png" alt="" height="30" width="30">Road</h2></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto" id="newMemo">
+                <li class="nav-item">
+                    <a class="nav-link" v-on:click="transferTo('xhdlk')" style="color: #09AAFF;cursor: pointer" >信号灯路口</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" v-on:click="transferTo('tqlb')" style="color: #09AAFF;cursor: pointer" >突起路标</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" v-on:click="transferTo('ssglbsd')" style="color: #09AAFF;cursor: pointer" >爆闪灯</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" v-on:click="transferTo('rxhdx')" style="color: #09AAFF;cursor: pointer" >人行横道线</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" v-on:click="transferTo('lsydbz')" style="color: #09AAFF;cursor: pointer" >临时移动标志</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" v-on:click="transferTo('lnbw')" style="color: #09AAFF;cursor: pointer" >路内泊位</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" v-on:click="transferTo('jzwcrk')" style="color: #09AAFF;cursor: pointer" >建筑物出入口</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" v-on:click="transferTo('jsz')" style="color: #09AAFF;cursor: pointer" >警示柱</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" v-on:click="transferTo('jshcd')" style="color: #09AAFF;cursor: pointer" >减速缓冲带</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" v-on:click="transferTo('glss')" style="color: #09AAFF;cursor: pointer" >隔离设施</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" v-on:click="transferTo('gjzd')" style="color: #09AAFF;cursor: pointer" >公交站点</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" v-on:click="transferTo('bzp')" style="color: #09AAFF;cursor: pointer" >标志牌</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+
+<div style="width: 100%" id="msg">
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head" style="margin-top: 10px;font-weight: bold;">属性</li>
+        <li class="list-group-item tail" style="margin-top: 10px;font-weight: bold;text-align: center">内容</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">唯一标识符</li>
+        <li class="list-group-item tail">{{s.id}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">道路名</li>
+        <li class="list-group-item tail">{{s.dlm}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">所属大队</li>
+        <li class="list-group-item tail">{{s.ssdd}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">所属中队</li>
+        <li class="list-group-item tail">{{s.sszd}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">道路属性</li>
+        <li class="list-group-item tail">{{s.dlsx}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">道路分类等级</li>
+        <li class="list-group-item tail">{{s.dlfldj}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">长度</li>
+        <li class="list-group-item tail">{{s.cd}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">横断面宽度</li>
+        <li class="list-group-item tail">{{s.hdmkd}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">横断面宽度备注</li>
+        <li class="list-group-item tail">{{s.hdmkdbz}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">横断面结构</li>
+        <li class="list-group-item tail">{{s.hdmjg}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">横断面结构备注</li>
+        <li class="list-group-item tail">{{s.hdmjgbz}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">车道分布</li>
+        <li class="list-group-item tail">{{s.cdfb}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">车道分布备注</li>
+        <li class="list-group-item tail">{{s.cdfbbz}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">设计速度</li>
+        <li class="list-group-item tail">{{s.sd}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">方向</li>
+        <li class="list-group-item tail">{{s.fx}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">起点</li>
+        <li class="list-group-item tail">{{s.qd}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">终点</li>
+        <li class="list-group-item tail">{{s.zd}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">信号灯路口数量</li>
+        <li class="list-group-item tail">{{s.xhdlkcount}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">非灯控支小路数量</li>
+        <li class="list-group-item tail">{{s.fdzxlcount}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">路内泊位数量</li>
+        <li class="list-group-item tail">{{s.lnbwcount}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">隔离设施数量</li>
+        <li class="list-group-item tail">{{s.glsscount}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">公交站点数量</li>
+        <li class="list-group-item tail">{{s.glzdcount}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">人行横道数量</li>
+        <li class="list-group-item tail">{{s.rxhdxcount}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">建筑物出入口数量</li>
+        <li class="list-group-item tail">{{s.jzwcrkcount}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">标志牌数量</li>
+        <li class="list-group-item tail">{{s.bzpcount}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">导流区数量</li>
+        <li class="list-group-item tail">{{s.dlqcount}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">警示柱数量</li>
+        <li class="list-group-item tail">{{s.jsz}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">减速缓冲带数量</li>
+        <li class="list-group-item tail">{{s.jshcdcount}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">突起路标数量</li>
+        <li class="list-group-item tail">{{s.tqlbcount}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">爆闪灯数量</li>
+        <li class="list-group-item tail">A second item</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">安全锥数量</li>
+        <li class="list-group-item tail">{{s.aqzcount}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">办理人</li>
+        <li class="list-group-item tail">{{s.blr}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">ip</li>
+        <li class="list-group-item tail">{{s.ip}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">删除时间</li>
+        <li class="list-group-item tail">{{s.scsj}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">修改时间</li>
+        <li class="list-group-item tail">{{s.xgsj}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">新增时间</li>
+        <li class="list-group-item tail">{{s.xzsj}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">删除标记</li>
+        <li class="list-group-item tail">{{s.isdel}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">备注</li>
+        <li class="list-group-item tail">{{s.bz}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">道路代码</li>
+        <li class="list-group-item tail">{{s.dldm}}</li>
+    </ul>
+
+</div>
+<script src="../../js/dljcxxxx.js"></script>
+</body>
+</html>

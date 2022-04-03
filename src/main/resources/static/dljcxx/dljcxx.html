@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>道路基础信息管理</title>
+    <link rel="icon" href="../img/菠萝.png">
+    <meta charset="utf-8">
+    <script src="../js/jquery.min.js"></script>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <link href="../css/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="../js/jquery.cookie.js"></script>
+    <script src="../js/jquery.min.js"></script>
+<!--    <script src="js/cloud_index.js"></script>-->
+    <script src="../js/vue.min.js"></script>
+    <script src="../js/axios.min.js"></script>
+</head>
+<body style="overflow-y: hidden">
+<div id="all">
+    <header id="header">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #e3f2fd;">
+            <a class="navbar-brand" href="/"><h2><img src="../img/菠萝.png" alt="" height="30" width="30">Road</h2></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto" id="newMemo">
+                    <li class="nav-item">
+                        <span class="nav-link" style="color: #09AAFF;cursor: pointer">新建</span>
+                    </li>
+                </ul>
+
+                <form class="form-inline my-2 my-lg-0">
+                    <div class="form-row align-items-center">
+                        <div class="col-auto my-1">
+                            <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Preference</label>
+                            <select v-model="searchInfo" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                                <option selected value="dlm">道路名</option>
+                                <option value="id">唯一标识符</option>
+                                <option value="qd">起点</option>
+                                <option value="zd">终点</option>
+                                <option value="dldm">道路代码</option>
+                                <option value="blr">办理人id</option>
+                                <option value="sszd">所属中队</option>
+                                <option value="ssdd">所属大队</option>
+                            </select>
+                        </div>
+                    </div>
+                    <input v-model="searchData" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <input hidden>
+                    <button class="btn btn-outline-success my-2 my-sm-0" v-on:click="search()" type="button">Search</button>
+                </form>
+            </div>
+        </nav>
+    </header>
+    <div class="row" id="allInfo" style="margin-left: auto;margin-right: auto;height: 100vh">
+        <div class="list-group">
+        <span id="a" class="list-group-item list-group-item-action list-group-item-light" style="cursor: pointer" :style="squadron" >
+            <span style="margin-left: 10px" @click="changeToSquadron()"> 中队辖区</span>
+        </span>
+            <span id="image" class="list-group-item list-group-item-action list-group-item-light" :style="brigade" style="cursor: pointer">
+            <span style="margin-left: 10px" @click="changeToBrigade()">大队辖区</span>
+        </span>
+
+        </div>
+        <div class="col">
+            <div id="buttons">
+                &nbsp&nbsp
+                &nbsp<button v-show="!isDel" id="del" type="button" class="btn btn-outline-primary" disabled><i class="fa fa-trash"></i> 删除</button>
+                <button v-show="isDel" id="delete" type="button" data-toggle="modal" data-target="#staticBackdrop" class="btn btn-outline-primary" ><i class="fa fa-trash"></i> 删除</button>
+                &nbsp<button v-show="!isChange" id="re" type="button" class="btn btn-outline-primary" disabled><i class="fa fa-book"></i> 修改</button>
+                <button v-show="isChange"  data-toggle="modal" data-target="#exampleModal" id="rename" type="button" class="btn btn-outline-primary"><i class="fa fa-book"></i> 修改</button>
+                &nbsp<button v-show="!isNewCapable" id="n" type="button" class="btn btn-outline-primary" disabled><i class="fa fa-book"></i> 新建</button>
+                <button v-show="isNewCapable"  data-toggle="modal" data-target="#newModal" id="new" type="button" class="btn btn-outline-primary"><i class="fa fa-book"></i> 新建</button>
+
+            </div>
+
+            <div class="modal fade" id="staticBackdrop" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">删除</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            删除信息后将无法撤回，是否确认删除
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" v-on:click="del()" data-dismiss="modal" id="sureDel">确认删除</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">修改</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="col-auto my-1">
+                                    <label class="mr-sm-2 sr-only" for="select">Preference</label>
+                                    <select v-model="updateInfo" class="custom-select mr-sm-2" id="select">
+                                        <option value="id">唯一标识符</option>
+                                        <option value="dlm">道路名</option>
+                                        <option value="ssdd">所属大队</option>
+                                        <option value="sszd">所属中队</option>
+                                        <option value="dlsx">道路属性</option>
+                                        <option value="dlfldj">道路分类等级</option>
+                                        <option value="cd">长度</option>
+                                        <option value="hdmkd">横断面宽度</option>
+                                        <option value="hdmkdbz">横断面宽度备注</option>
+                                        <option value="cdfb">长度分布</option>
+                                        <option value="cdfbbz">长度分布备注</option>
+                                        <option value="fx">方向</option>
+                                        <option value="qd">起点</option>
+                                        <option value="zd">终点</option>
+                                        <option value="xhdlkcount">信号灯路口数量</option>
+                                        <option value="lnbwcountu">路内泊位数量</option>
+                                        <option value="glsscount">隔离设施数量</option>
+                                        <option value="glzdcount">公交站点数量</option>
+                                        <option value="rxhdxcount">人行横道数量</option>
+                                        <option value="jzwcrkcount">建筑物出入口数量</option>
+                                        <option value="bzpcount">标志牌数量</option>
+                                        <option value="dlqcount">减速缓冲带数量</option>
+                                        <option value="tqlbcount">突起路标数量</option>
+                                        <option value="aqzcount">安全锥数量</option>
+                                        <option value="lsydbzcount">临时移动标记数量</option>
+                                        <option value="xzsj">新增时间</option>
+                                        <option value="xgsj">修改时间</option>
+                                        <option value="scsj">删除时间</option>
+                                        <option value="isdel">删除标记</option>
+                                        <option value="blr">办理人</option>
+                                        <option value="ip">ip</option>
+                                        <option value="bz">备注</option>
+                                    </select>
+                                    <input v-model="updateData" v-on:keydown.enter.stop="update()" type="text" class="form-control" id="f" placeholder="修改为">
+                                    <input hidden>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary" v-on:click="update()">修改</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="newModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="newModalLabe">新建</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="col-auto my-1">
+                                    <input v-model="newMsg.dlm" type="text" class="form-control" placeholder="道路名">
+                                    <input v-model="newMsg.sszd" type="text" class="form-control" placeholder="所属中队">
+                                    <input v-model="newMsg.ssdd" type="text" class="form-control" placeholder="所属大队">
+                                    <input v-model="newMsg.dlsx" type="text" class="form-control" placeholder="道路属性">
+                                    <input v-model="newMsg.dlfldj" type="text" class="form-control" placeholder="道路分类等级">
+                                    <input v-model="newMsg.cd" type="text" class="form-control" placeholder="长度（必填）">
+                                    <input v-model="newMsg.hdmkd" type="text" class="form-control" placeholder="横断面宽度（必填）">
+                                    <input v-model="newMsg.hdmkdbz" type="text" class="form-control" placeholder="横断面宽度备注">
+                                    <input v-model="newMsg.hdmjg" type="text" class="form-control" placeholder="横断面结构">
+                                    <input v-model="newMsg.cdfb" type="text" class="form-control" placeholder="车道分布">
+                                    <input v-model="newMsg.cdfbbz" type="text" class="form-control" placeholder="车道分布备注（必填）">
+                                    <input v-model="newMsg.sjsd" type="text" class="form-control" placeholder="方向">
+                                    <input v-model="newMsg.qd" type="text" class="form-control" placeholder="起点（必填）">
+                                    <input v-model="newMsg.zd" type="text" class="form-control" placeholder="终点">
+                                    <input v-model="newMsg.xhdlkcount" type="text" class="form-control" placeholder="信号灯路口数量">
+                                    <input v-model="newMsg.xhdlkcount" type="text" class="form-control" placeholder="非灯控支小路数量">
+                                    <input v-model="newMsg.fdzxlcount" type="text" class="form-control" placeholder="路内泊位数量">
+                                    <input v-model="newMsg.lnbwcount" type="text" class="form-control" placeholder="公交站点数量">
+                                    <input v-model="newMsg.rxhdxco" type="text" class="form-control" placeholder="人行横道数量">
+                                    <input v-model="newMsg.jzwcrkcount" type="text" class="form-control" placeholder="建筑物出入口数量">
+                                    <input v-model="newMsg.bzpcount" type="text" class="form-control" placeholder="标志牌数量">
+                                    <input v-model="newMsg.dlqcount" type="text" class="form-control" placeholder="导流区数量">
+                                    <input v-model="newMsg.jszcoun" type="text" class="form-control" placeholder="警示柱数量">
+                                    <input v-model="newMsg.jshcdcount" type="text" class="form-control" placeholder="减速缓冲带数量">
+                                    <input v-model="newMsg.tqlbcount" type="text" class="form-control" placeholder="突起路标数量">
+                                    <input v-model="newMsg.bsdcoun" type="text" class="form-control" placeholder="爆闪灯数量">
+                                    <input v-model="newMsg.aqzcount" type="text" class="form-control" placeholder="安全锥数量">
+                                    <input v-model="newMsg.lsydbzcount" type="text" class="form-control" placeholder="临时移动标志数量">
+                                    <input v-model="newMsg.qtjtsscou" type="text" class="form-control" placeholder="其他交通设施数量">
+                                    <input v-model="newMsg.xzsj" type="text" class="form-control" placeholder="新增时间（如2022-01-01)">
+                                    <input v-model="newMsg.xgsj" type="text" class="form-control" placeholder="修改时间（如2022-01-01)">
+                                    <input v-model="newMsg.scsj" type="text" class="form-control" placeholder="删除时间（如2022-01-01)">
+                                    <input v-model="newMsg.isdel" type="text" class="form-control" placeholder="删除标记（是/否)">
+                                    <input v-model="newMsg.blr" type="text" class="form-control" placeholder="办理人">
+                                    <input v-model="newMsg.ip" type="text" class="form-control" placeholder="IP地址（ipv4）">
+                                    <input v-model="newMsg.sjsdbz" type="text" class="form-control" placeholder="设计速度备注">
+                                    <input v-model="newMsg.bz" type="text" class="form-control" placeholder="备注">
+                                    <input v-model="newMsg.fdx" type="text" class="form-control" placeholder="分道线条数">
+                                    <input hidden>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary" v-on:click="newD()">新建</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item" aria-checked="true" >
+                        <div style="display: flex;user-select:none">
+                        <span style="width: 50%;color: #888">
+                            <i class="fa fa-road" aria-hidden="true"></i>
+                            道路名
+                        </span>
+                            <span style="width: 30%;color: #888">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                            办理人</span>
+                            <span style="width: 20%;color: #888">
+                            道路代码
+                        </span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div style="overflow-y: scroll;height:28em"  id="msg">
+                <ul class="list-group list-group-flush" id="files">
+                    <template v-for="m in msg">
+                        <li v-on:click="transferTo(m.id)" class="list-group-item list-group-item-action" aria-checked="false">
+                            <div style="display: flex;user-select:none">
+                        <span style="width: 50%;">
+                            <input v-on:click.stop type="checkbox" v-bind:value="m.id" v-bind:id="m.id" v-model="checked"/>
+                             <label v-on:click.stop v-bind:for="m.id"> {{m.dlm}}</label>
+                        </span>
+                                <span style="width: 30%;">{{m.blr}}</span>
+                                <span style="width: 20%;">{{m.dldm}}</span>
+                            </div>
+                        </li>
+                    </template>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script src="../js/dljcxx.js"></script>
+
+</html>

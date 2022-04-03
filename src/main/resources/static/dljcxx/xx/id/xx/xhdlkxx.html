@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>详细</title>
+
+    <link rel="shortcut icon" href="../../../../../img/菠萝.png" >
+    <!-- Bootstrap -->
+    <link type="text/css" rel="stylesheet" href="../../../../../css/bootstrap.min.css" />
+
+    <script src="../../../../../js/jquery.min.js"></script>
+    <script src="../../../../../js/bootstrap.min.js"></script>
+    <script src="../../../../../js/bootstrap.bundle.min.js"></script>
+    <!--    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>-->
+    <script src="../../../../../js/axios.min.js"></script>
+    <script src="../../../../../js/vue.min.js"></script>
+    <style type="text/css">
+        .head {
+            width: 20%;
+            margin-left: 10px;
+            text-align: center;
+            /*font-weight: bold;*/
+        }
+        .tail {
+            width: 80%;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<header id="header">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #e3f2fd;">
+        <a class="navbar-brand" href="/"><h2><img src="../../../../../img/菠萝.png" alt="" height="30" width="30">Road</h2></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </nav>
+</header>
+
+
+<div style="width: 100%" id="msg">
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head" style="margin-top: 10px;font-weight: bold;">属性</li>
+        <li class="list-group-item tail" style="margin-top: 10px;font-weight: bold;text-align: center">内容</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">唯一标识符</li>
+        <li class="list-group-item tail">{{s.id}}</li>
+    </ul>
+        <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">路口名称</li>
+        <li class="list-group-item tail">{{s.lkmc}}</li>
+    </ul>
+        <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">所属道路</li>
+        <li class="list-group-item tail">{{s.ssdl}}</li>
+    </ul>
+        <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">新增时间</li>
+        <li class="list-group-item tail">{{s.xzsj}}</li>
+    </ul>
+        <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">修改时间</li>
+        <li class="list-group-item tail">{{s.xgsj}}</li>
+    </ul>
+        <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">删除时间</li>
+        <li class="list-group-item tail">{{s.scsj}}</li>
+    </ul>
+        <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">删除标记</li>
+        <li class="list-group-item tail">{{s.isdel}}</li>
+    </ul>
+        <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">办理人</li>
+        <li class="list-group-item tail">{{s.blr}}</li>
+    </ul>
+        <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">ip</li>
+        <li class="list-group-item tail">{{s.ip}}</li>
+    </ul>
+        <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">路段代码</li>
+        <li class="list-group-item tail">{{s.lddm}}</li>
+    </ul>
+        <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">信号灯路口id</li>
+        <li class="list-group-item tail">{{s.xhdlkid}}</li>
+    </ul>
+        <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">监控点信号</li>
+        <li class="list-group-item tail">{{s.jkdxh}}</li>
+    </ul>
+        <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">第一车道</li>
+        <li class="list-group-item tail">{{s.firstcd}}</li>
+    </ul>
+        <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">第二车道</li>
+        <li class="list-group-item tail">{{s.seconded}}</li>
+    </ul>
+        <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">第三车道</li>
+        <li class="list-group-item tail">{{s.thirdcd}}</li>
+    </ul>
+        <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">第四车道</li>
+        <li class="list-group-item tail">{{s.fifth}}</li>
+    </ul>
+        <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">第五彻底</li>
+        <li class="list-group-item tail">{{s.fifthcd}}</li>
+    </ul>
+        <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">地六车道</li>
+        <li class="list-group-item tail">{{s.sixthcd}}</li>
+    </ul>
+        <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">第七车道</li>
+        <li class="list-group-item tail">{{s.seventhc}}</li>
+    </ul>
+        <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">第八车道</li>
+        <li class="list-group-item tail">{{s.eightcd}}</li>
+    </ul>
+        <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">第九车道</li>
+        <li class="list-group-item tail">{{s.ninethcd}}</li>
+    </ul>
+        <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">可变车道</li>
+        <li class="list-group-item tail">{{s.kbcd}}</li>
+    </ul>
+        <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">待行区</li>
+        <li class="list-group-item tail">{{s.dxq}}</li>
+    </ul>
+        <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">潮汐车道</li>
+        <li class="list-group-item tail">{{s.cxcd}}</li>
+    </ul>
+        <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">备注</li>
+        <li class="list-group-item tail">{{s.bz}}</li>
+    </ul>
+        <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">潮汐车道长度</li>
+        <li class="list-group-item tail">{{s.cxcdcd}}</li>
+    </ul>
+        <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">潮汐车道方向</li>
+        <li class="list-group-item tail">{{s.cxcdfx}}</li>
+    </ul>
+</div>
+<script src="../../../../../js/dljcxxxx.js"></script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>详细</title>
+
+    <link rel="shortcut icon" href="../../../img/菠萝.png" >
+    <!-- Bootstrap -->
+    <link type="text/css" rel="stylesheet" href="../../../css/bootstrap.min.css" />
+
+    <script src="../../../js/jquery.min.js"></script>
+    <script src="../../../js/bootstrap.min.js"></script>
+    <script src="../../../js/bootstrap.bundle.min.js"></script>
+    <!--    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>-->
+    <script src="../../../js/axios.min.js"></script>
+    <script src="../../../js/vue.min.js"></script>
+    <style type="text/css">
+        .head {
+            width: 20%;
+            margin-left: 10px;
+            text-align: center;
+            /*font-weight: bold;*/
+        }
+        .tail {
+            width: 80%;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<header id="header">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #e3f2fd;">
+        <a class="navbar-brand" href="/"><h2><img src="../../../img/菠萝.png" alt="" height="30" width="30">Road</h2></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </nav>
+</header>
+
+
+<div style="width: 100%" id="msg">
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head" style="margin-top: 10px;font-weight: bold;">属性</li>
+        <li class="list-group-item tail" style="margin-top: 10px;font-weight: bold;text-align: center">内容</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">唯一标识符</li>
+        <li class="list-group-item tail">{{s.id}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">所属机构</li>
+        <li class="list-group-item tail">{{s.ssjg}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">姓名</li>
+        <li class="list-group-item tail">{{s.xm}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">性别</li>
+        <li class="list-group-item tail">{{s.xb}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">警号</li>
+        <li class="list-group-item tail">{{s.jh}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">身份证号</li>
+        <li class="list-group-item tail">{{s.sfzh}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">电话</li>
+        <li class="list-group-item tail">{{s.dh}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">手机长号</li>
+        <li class="list-group-item tail">{{s.sjch}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">公安短号</li>
+        <li class="list-group-item tail">{{s.gadh}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">地址</li>
+        <li class="list-group-item tail">{{s.dz}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">职位</li>
+        <li class="list-group-item tail">{{s.zw}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">人员类型</li>
+        <li class="list-group-item tail">{{s.rylx}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">是否有效</li>
+        <li class="list-group-item tail">{{s.sfyx}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">修改时间</li>
+        <li class="list-group-item tail">{{s.xgsj}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">新增时间</li>
+        <li class="list-group-item tail">{{s.xzsj}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">删除时间</li>
+        <li class="list-group-item tail">{{s.scsj}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item head">删除标记</li>
+        <li class="list-group-item tail">{{s.isdel}}</li>
+    </ul>
+
+</div>
+<script src="../../../js/dljcxxxx.js"></script>
+</body>
+</html>

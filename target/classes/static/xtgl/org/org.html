@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>组织关系</title>
+  <link rel="stylesheet" href="./tree/dist/style.css">
+  <link rel="shortcut icon" href="../../img/菠萝.png" >
+  <!-- Bootstrap -->
+  <link type="text/css" rel="stylesheet" href="../../css/bootstrap.min.css" />
+
+  <script src="../../js/jquery.min.js"></script>
+  <script src="../../js/bootstrap.min.js"></script>
+  <script src="../../js/bootstrap.bundle.min.js"></script>
+  <script src="../../js/axios.min.js"></script>
+  <script src="../../js/vue.min.js"></script>
+  <style type="text/css">
+    .head {
+      width: 20%;
+      margin-left: 10px;
+      text-align: center;
+    }
+    .tail {
+      width: 80%;
+      margin-right: 10px;
+    }
+    code{
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+<div id="all" align="center">
+  <header id="header">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #e3f2fd;">
+      <a class="navbar-brand" href="/"><h2><img src="../../img/菠萝.png" alt="" height="30" width="30">Road</h2></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      &nbsp&nbsp
+      <button id="delete" type="button" data-toggle="modal" data-target="#staticBackdrop" class="btn btn-outline-primary" ><i class="fa fa-trash"></i> 删除</button>
+      &nbsp<button data-toggle="modal" data-target="#exampleModal" id="rename" type="button" class="btn btn-outline-primary"><i class="fa fa-book"></i> 修改</button>
+      &nbsp<button v-show="!isNewCapable" id="n" type="button" class="btn btn-outline-primary" disabled><i class="fa fa-book"></i> 新建</button>
+      <button v-show="isNewCapable"  data-toggle="modal" data-target="#newModal" id="new" type="button" class="btn btn-outline-primary"><i class="fa fa-book"></i> 新建</button>
+    </nav>
+  </header>
+
+  <div class="col">
+    <div class="col">
+      <div id="buttons">
+
+      </div>
+
+      <div class="modal fade" id="staticBackdrop" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="staticBackdropLabel">删除</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body" style="color: red">
+              <p><b>您将无法撤回地删除该部门及其子部门的所有信息</b></p>
+              <input v-model="delInfo" type="text" class="form-control" placeholder="部门名称">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" v-on:click="del()" data-dismiss="modal" id="sureDel">确认删除</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="newModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="newModalLabe">新建</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="col-auto my-1">
+                    <input v-model="newMsg.bmmc" type="text" class="form-control" placeholder="部门名称">
+                    <input v-model="newMsg.bmjb" type="text" class="form-control" placeholder="部门级别">
+                    <input v-model="newMsg.bmlx" type="text" class="form-control" placeholder="部门类型">
+                    <input v-model="newMsg.zzdm" type="text" class="form-control" placeholder="组织代码">
+                    <input v-model="newMsg.xzqd" type="text" class="form-control" placeholder="行政区划">
+                    <input v-model="newMsg.sjbm" type="text" class="form-control" placeholder="上级部门">
+                    <input v-model="newMsg.dh" type="text" class="form-control" placeholder="电话">
+                    <input v-model="newMsg.dz" type="text" class="form-control" placeholder="地址">
+                    <input v-model="newMsg.bmsm" type="text" class="form-control" placeholder="部门说明">
+                    <input v-model="newMsg.zt" type="text" class="form-control" placeholder="状态">
+                    <input v-model="newMsg.xzsj" type="text" class="form-control" placeholder="新增时间（如：2020-01-01）">
+                    <input v-model="newMsg.xgsj" type="text" class="form-control" placeholder="修改时间（如：2020-01-01）">
+                    <input v-model="newMsg.scsj" type="text" class="form-control" placeholder="删除时间（如：2020-01-01）">
+                    <input v-model="newMsg.isdel" type="text" class="form-control" placeholder="删除标记">
+                  <input hidden>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+              <button type="button" class="btn btn-primary" v-on:click="newD()">新建</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">修改</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="col-auto my-1">
+                  <label class="mr-sm-2 sr-only" for="select">Preference</label>
+                  <input v-model="org" type="text" class="form-control" placeholder="要修改信息的部门名称（如：综合科）">
+                  <br>
+                  <select v-model="updateInfo" class="custom-select mr-sm-2" id="select">
+                    <option value="id">唯一标识符</option>
+                    <option value="bmmc">部门名称</option>
+                    <option value="bmjb">部门级别</option>
+                    <option value="bmlx">部门类型</option>
+                    <option value="zzdm">组织代码</option>
+                    <option value="xzqd">行政区划</option>
+                    <option value="sjbm">上级部门</option>
+                    <option value="dh">电话</option>
+                    <option value="dz">地址</option>
+                    <option value="bmsm">部门说明</option>
+                    <option value="zt">状态</option>
+                    <option value="xzsj">新增时间</option>
+                    <option value="xgsj">修改时间</option>
+                    <option value="xcsj">删除时间</option>
+                    <option value="isdel">删除标记</option>
+                  </select>
+                  <input v-model="updateData" v-on:keydown.enter.stop="update()" type="text" class="form-control" id="f" placeholder="修改为">
+                  <input hidden>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+              <button type="button" class="btn btn-primary" v-on:click="update()">修改</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <figure>
+    <h3 align="center">张家界市交警支队</h3>
+    <ul class="tree" style="font-size: 2em">
+      <template v-for="o in one">
+        <li>
+          <code v-on:click="transferTo(o.id)">{{o.bmmc}}</code>
+          <ul>
+            <template v-for="w in two">
+              <li v-if="w.sjbm==o.id">
+                <code v-on:click="transferTo(w.id)">{{w.bmmc}}</code>
+                <ul>
+                  <template v-for="t in three">
+                    <li v-if="t.sjbm==w.id">
+                      <code v-on:click="transferTo(t.id)">{{t.bmmc}}</code>
+                    </li>
+                  </template>
+                </ul>
+              </li>
+            </template>
+          </ul>
+        </li>
+      </template>
+    </ul>
+  </figure>
+</div>
+<script src="../../js/org.js"></script>
+</body>
+</html>

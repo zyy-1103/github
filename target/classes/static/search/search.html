@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>道路基础信息管理</title>
+    <link rel="icon" href="../img/菠萝.png">
+    <meta charset="utf-8">
+    <script src="../js/jquery.min.js"></script>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <link href="../css/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="../js/jquery.cookie.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <!--    <script src="js/cloud_index.js"></script>-->
+    <script src="../js/vue.min.js"></script>
+    <script src="../js/axios.min.js"></script>
+</head>
+<body>
+<div id="all">
+    <header id="header">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #e3f2fd;">
+            <a class="navbar-brand" href="/"><h2><img src="../img/菠萝.png" alt="" height="30" width="30">Road</h2></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto" id="newMemo">
+                    <li class="nav-item">
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-6">
+            <form>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="type">部门级别</label>
+                        <select v-model="grade" id="type" class="form-control">
+                            <option value="sszd" selected>中队</option>
+                            <option value="ssdd">大队</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="inputPassword4">部门名称</label>
+                        <input v-model="orgName" type="text" class="form-control" placeholder="默认选中所有项" id="inputPassword4">
+                    </div>
+                </div>
+                <div v-show="orgName">
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="info">字段</label>
+                            <select v-model="dlInfo" id="info" class="form-control">
+                                <option value="dlm" selected>道路名</option>
+                                <option value="id">id</option>
+                                <option value="lddm">道路代码</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="dl">值</label>
+                            <input v-model="dlData" type="text" class="form-control" placeholder="默认选中所有" id="dl">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-row">
+                            <h5 class="col-5">需展示的字段</h5>
+                            <h5 class="col-5">已选</h5>
+                            <select multiple class="form-control col-5" id="a">
+                                <template v-for="x in la">
+                                    <option v-on:click="tb(x.a)" :value="x.a">{{x.b}}</option>
+                                </template>
+                            </select>
+
+                            <select multiple class="form-control col-5" id="b">
+                                <template v-for="x in lb">
+                                    <option v-on:click="ta(x.a)" :value="x.a">{{x.b}}</option>
+                                </template>
+                            </select>
+
+                        </div>
+
+                    </div>
+                    <div class="form-row">
+                        <h5 class="col-10">筛选</h5>
+                        <div class="form-group col-md-3">
+                            <label for="t">标识</label>
+                            <select v-model="t[0]" id="t" class="form-control">
+                                <option value="bzp">标志牌</option>
+                                <option value="dlq">导流区</option>
+                                <option value="gjzd">公交站点</option>
+                                <option value="glss">隔离设施</option>
+                                <option value="isglss">安全锥</option>
+                                <option value="jshcd">减速缓冲带</option>
+                                <option value="jsz">警示柱</option>
+                                <option value="jzwcrk">建筑物出入口</option>
+                                <option value="lnbw">路内泊位</option>
+                                <option value="lsydbz">临时移动标志</option>
+                                <option value="rxhdx">人行横道线</option>
+                                <option value="ssglbsd">爆闪灯</option>
+                                <option value="tqlb">突起路标</option>
+                                <option value="xhdlk">信号灯路口</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-1">
+                            <label for="b1">运算符</label>
+                            <select v-model="y[0]" id="b1" class="form-control">
+                                <option value=">">> </option>
+                                <option value="<"> <</option>
+                                <option value="="> =</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="i">组织名称</label>
+                            <input v-model="d[0]" type="text" class="form-control" placeholder="为空则忽略条件" id="i">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="t1">标识</label>
+                            <select v-model="t[1]" id="t1" class="form-control">
+                                <option value="bzp">标志牌</option>
+                                <option value="dlq">导流区</option>
+                                <option value="gjzd">公交站点</option>
+                                <option value="glss">隔离设施</option>
+                                <option value="isglss">安全锥</option>
+                                <option value="jshcd">减速缓冲带</option>
+                                <option value="jsz">警示柱</option>
+                                <option value="jzwcrk">建筑物出入口</option>
+                                <option value="lnbw">路内泊位</option>
+                                <option value="lsydbz">临时移动标志</option>
+                                <option value="rxhdx">人行横道线</option>
+                                <option value="ssglbsd">爆闪灯</option>
+                                <option value="tqlb">突起路标</option>
+                                <option value="xhdlk">信号灯路口</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-1">
+                            <label for="b2">运算符</label>
+                            <select v-model="y[1]" id="b2" class="form-control">
+                                <option value=">">> </option>
+                                <option value="<"> <</option>
+                                <option value="="> =</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="i1">组织名称</label>
+                            <input v-model="d[1]" type="text" class="form-control" placeholder="为空则忽略条件" id="i1">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label  for="t3">标识</label>
+                            <select v-model="t[2]" id="t3" class="form-control">
+                                <option value="bzp">标志牌</option>
+                                <option value="dlq">导流区</option>
+                                <option value="gjzd">公交站点</option>
+                                <option value="glss">隔离设施</option>
+                                <option value="isglss">安全锥</option>
+                                <option value="jshcd">减速缓冲带</option>
+                                <option value="jsz">警示柱</option>
+                                <option value="jzwcrk">建筑物出入口</option>
+                                <option value="lnbw">路内泊位</option>
+                                <option value="lsydbz">临时移动标志</option>
+                                <option value="rxhdx">人行横道线</option>
+                                <option value="ssglbsd">爆闪灯</option>
+                                <option value="tqlb">突起路标</option>
+                                <option value="xhdlk">信号灯路口</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-1">
+                            <label for="b3">运算符</label>
+                            <select v-model="y[2]" id="b3" class="form-control">
+                                <option value=">">> </option>
+                                <option value="<"> <</option>
+                                <option value="="> =</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="i3">组织名称</label>
+                            <input v-model="d[2]" type="text" class="form-control" placeholder="为空则忽略条件" id="i3">
+                        </div>
+                    </div>
+                </div>
+                <button v-on:click="search()" type="button" class="btn col-10 btn-primary">搜索</button>
+            </form>
+        </div>
+    </div>
+    <div>
+        <div id="msg">
+            <ul class="list-group list-group-flush" id="files">
+                <template v-for="m in msg">
+                    <li class="list-group-item list-group-item-action" aria-checked="false">
+                        <div style="display: flex;user-select:none">
+                            <span v-if="m.ssdd" style="color: black;width:6.25%">
+                                {{m.ssdd}}
+                            </span>
+                            <span v-if="m.sszd" style="color: black;width:6.25%">
+                                {{m.sszd}}
+                            </span>
+                            <span v-if="m.dlm" style="color: black;width:6.25%">
+                                {{m.dlm}}
+                            </span>
+                            <span v-if="null!=m.bzp" style="color: black;width:6.25%">
+                                {{m.bzp}}
+                            </span>
+                            <span v-if="null!=m.dljcxx" style="color: black;width:6.25%">
+                                {{m.dljcxx}}
+                            </span>
+                            <span v-if="null!=m.dlq" style="color: black;width:6.25%">
+                                {{m.dlq}}
+                            </span>
+                            <span v-if="null!=m.gjzd" style="color: black;width:6.25%">
+                                {{m.gjzd}}
+                            </span>
+                            <span v-if="null!=m.glss" style="color: black;width:6.25%">
+                                {{m.glss}}
+                            </span>
+                            <span v-if="null!=m.isglss" style="color: black;width:6.25%">
+                                {{m.isglss}}
+                            </span>
+                            <span v-if="null!=m.jshcd" style="color: black;width:6.25%">
+                                {{m.jshcd}}
+                            </span>
+                            <span v-if="null!=m.jzwcrk" style="color: black;width:6.25%">
+                                {{m.jzwcrk}}
+                            </span>
+                            <span v-if="null!=m.lnbw" style="color: black;width:6.25%">
+                                {{m.lnbw}}
+                            </span>
+                            <span v-if="null!=m.lsydbz" style="color: black;width:6.25%">
+                                {{m.lsydbz}}
+                            </span>
+                            <span v-if="null!=m.rxhdx" style="color: black;width:6.25%">
+                                {{m.rxhdx}}
+                            </span>
+                            <span v-if="null!=m.ssglbsd" style="color: black;width:6.25%">
+                                {{m.ssglbsd}}
+                            </span>
+                            <span v-if="null!=m.tqlb" style="color: black;width:6.25%">
+                                {{m.tqlb}}
+                            </span>
+                            <span v-if="null!=m.xhdlk" style="color: black;width:6.25%">
+                                {{m.xhdlk}}
+                            </span>
+                        </div>
+                    </li>
+                </template>
+            </ul>
+        </div>
+    </div>
+
+</div>
+<script src="../js/search.js"></script>
+</body>
+</html>

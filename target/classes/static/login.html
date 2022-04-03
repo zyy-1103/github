@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="img/菠萝.png">
+    <meta charset="utf-8">
+    <title>登录</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.cookie.js"></script>
+<!--    <script src="js/iflogin.js"></script>-->
+    <script src="js/vue.min.js"></script>
+    <script src="js/axios.min.js"></script>
+<!--    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>-->
+
+    <style>
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+
+
+    <!-- Custom styles for this template -->
+    <link href="css/signin.css" rel="stylesheet">
+</head>
+<body class="text-center">
+
+<div class="container" id="sign">
+
+    <form class="form-signin" action="#" method="post">
+        <img class="mb-4" src="./img/菠萝1.png" alt="" style="width:30%;height: 30%">
+        <h1>LOGIN</h1><br>
+        <div style="text-align: left">
+            <span id="errorMsg" style="color: red">{{errorMsg}}</span>
+        </div>
+        <label for="inputUsername" class="sr-only">Username</label>
+        <input type="text" v-model="dlm" id="inputUsername" class="form-control" placeholder="用户名" autofocus>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" v-model="mm" v-on:keydown.enter="login()" id="inputPassword" class="form-control" placeholder="密码">
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" value="remember-me" id="remember"> 记住密码
+            </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="button" v-on:click="login()">登录</button>
+    </form>
+</div>
+<script src="js/login.js"></script>
+</body>
+</html>
