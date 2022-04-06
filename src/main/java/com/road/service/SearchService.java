@@ -1,28 +1,95 @@
 package com.road.service;
 
+import ch.ethz.ssh2.Connection;
+import ch.ethz.ssh2.Session;
+import ch.ethz.ssh2.StreamGobbler;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.road.bean.SearchResult;
 import com.road.mapper.SearchMapper;
+import io.lettuce.core.api.async.RedisAsyncCommands;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class SearchService {
     @Autowired
     SearchMapper mapper;
     @Autowired
+    @Qualifier("dljcxx")
     HashMap<String, String> hashMap;
+    @Autowired
+    RedisAsyncCommands<String, String> commands;
+    @Autowired
+    @Qualifier("file")
+    HashMap<String,String> fileMap;
+    @Autowired
+    ThreadPoolExecutor executor;
+    @Autowired
+    SpringProducer producer;
+    String path = "/var/lib/mysql-files/";
 
-    File file = new File("C:\\");
+    public void download(String s, HttpServletResponse response) throws IOException, ExecutionException, InterruptedException {
+        response.setHeader("content-type", "application/octet-stream");
+        response.setCharacterEncoding("UTF-8");
+        executor.submit(()->{
+            try {
+                JSONObject object = JSONObject.parseObject(s);
+                String sql1 = object.getString("sql1");
+                String sql2 = object.getString("sql2");
+                PrintWriter writer = response.getWriter();
+                FileReader fileReader;
+                String s1 = fileMap.get(sql1 + sql2);
+                if (s1 != null) {
+                    fileReader = new FileReader(s1);
+                }else{
+                    String fn = String.valueOf(System.currentTimeMillis());
+                    String fileName=path + fn + ".xls";
+                    String winFileName = "C:\\" + fn + ".xls";
+                    String sql = sql1 + " into outfile \""+fileName+ "\" " + sql2;
+                    fileMap.put(sql1 + sql2, winFileName);
+                    //缓存
+                    commands.setex(sql1 + sql2, 60, "0");
+                    mapper.selectAll(sql);
 
-    public String download(String sql) {
-        return null;
+                    Connection connection = new Connection("39.105.175.79", 22);
+                    connection.connect();
+                    boolean root = connection.authenticateWithPassword("root", "Tf8364334@");
+                    Session session = connection.openSession();
+                    session.execCommand("cat "+fileName);
+                    StreamGobbler streamGobbler = new StreamGobbler(session.getStdout());
+                    File file = new File(winFileName);
+                    FileOutputStream fileOutputStream = new FileOutputStream(file);
+                    while (true) {
+                        int read = streamGobbler.read();
+                        if(read==-1)
+                            break;
+                        fileOutputStream.write(read);
+                    }
+                    producer.sendMessage("DelTopic", fileName);
+                    fileReader = new FileReader(winFileName);
+                }
+                while (fileReader.ready()) {
+                    writer.write(fileReader.read());
+                }
+                writer.flush();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return 1;
+        }).get();       //使用get会阻塞，不然用户收不到返回的文件
+
     }
 
 
@@ -46,10 +113,15 @@ public class SearchService {
                 builder.append(",ifnull(sum(").append(e).append("count),0) as ").append(e);
             }
         });
+        String sql1=builder.toString();
+        int len=sql1.length();
         builder.append(" from dljcxx ");
         builder.append(" group by (").append(grade).append(")");
+        String sql2 = builder.substring(len);
         List<SearchResult> searchResults = mapper.selectAll(builder.toString());
         object.clear();
+        object.put("sql1", sql1);
+        object.put("sql2", sql2);
         object.put("data", searchResults);
         return object.toJSONString();
     }
@@ -72,6 +144,8 @@ public class SearchService {
         for (int i = 0; i < showList.size(); i++) {
             builder.append(",ifnull(").append(showList.getString(i)).append("count,'unknow') as ").append(showList.getString(i));
         }
+        String sql1 = builder.toString();
+        int len=sql1.length();
         builder.append(" from dljcxx where ");
         if (!dlData.equals("")) {
             builder.append(grade).append("='").append(orgName).append("'");
@@ -84,11 +158,12 @@ public class SearchService {
                 builder.append(" and ").append(t.getString(i)).append("count").append(y.getString(i)).append("'").append(d.getString(i)).append("'");
             }
         }
+        String sql2 = builder.substring(len);
         List<SearchResult> searchResults = mapper.selectAll(builder.toString());
         object.clear();
         object.put("data", searchResults);
-        System.out.println(builder.toString());
-        System.out.println(object.toJSONString());
+        object.put("sql1", sql1);
+        object.put("sql2", sql2);
         return object.toJSONString();
     }
 }

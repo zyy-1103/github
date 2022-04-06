@@ -246,6 +246,12 @@
                     </li>
                 </template>
             </ul>
+            <div v-show="sql1" class="text-center">
+                <div v-show="!isOver" class="spinner-border text-success" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <button v-on:click="download()" class="btn btn-success col-1" v-show="isOver">下载</button>
+            </div>
         </div>
     </div>
 

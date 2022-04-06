@@ -6,6 +6,10 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.concurrent.ExecutionException;
+
 @RestController
 @RequestMapping(value = "/search/")
 public class SearchController {
@@ -30,4 +34,8 @@ public class SearchController {
         return service.getByCondition(s);
     }
 
+    @PostMapping(value = "download")
+    public void download(@RequestBody String s, HttpServletResponse response) throws IOException, ExecutionException, InterruptedException {
+        service.download(s, response);
+    }
 }

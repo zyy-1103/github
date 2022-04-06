@@ -2,6 +2,7 @@ package com.road.service;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.road.bean.Employee;
 import com.road.mapper.EmployeeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,7 +42,10 @@ public class EmployeeService {
         String id = jsonObject.getString("id");
         String info = jsonObject.getString("info");
         String data = jsonObject.getString("data");
-        int update = mapper.update(id, info, data);
+        String oriData = jsonObject.getString("oriData");
+        System.out.println(oriData);
+        System.out.println(data);
+        int update = mapper.update(id, info, data,oriData);
         return String.valueOf(update);
     }
 

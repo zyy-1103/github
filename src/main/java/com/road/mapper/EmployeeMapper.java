@@ -27,9 +27,12 @@ public interface EmployeeMapper extends BaseMapper<Employee> {
     @Select("select count(*) from employee")
     int selectPages();
 
-    @Update("update employee set ${info} =#{data} where id=#{id}")
-    int update(String id, String info, String data);
+    @Update("update employee set ${info} =#{data} where id=#{id} and ${info}=#{oriData}")
+    int update(String id, String info, String data,String oriData);
 
     @Select("select * from employee where ${info} like '%${data}%'")
     List<Employee> search(String info, String data);
+
+    @Select("select ${info} from employee where id=#{id}")
+    String selectSome(String info, String id);
 }

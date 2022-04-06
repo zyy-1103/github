@@ -52,7 +52,12 @@ public class DljcxxService {
         String id = jsonObject.getString("id");
         String info = jsonObject.getString("info");
         String data = jsonObject.getString("data");
-        return String.valueOf(mapper.update(id, info, data));
+        String oriData = jsonObject.getString("oriData");
+        String s1 = mapper.selectSome(id, info);
+        if (!oriData.equals(s1)) {
+            return "更新数据时发生修改,请刷新确定是否仍要修改此数据";
+        }
+        return String.valueOf(mapper.update(id, info, data, oriData));
     }
 
     public String search(String s) {

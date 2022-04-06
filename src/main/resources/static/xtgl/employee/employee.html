@@ -197,7 +197,7 @@
             <div style="overflow-y: scroll;height:28em"  id="msg">
                 <ul class="list-group list-group-flush" id="files">
                     <template v-for="m in msg">
-                        <li v-on:click="transferTo(m.id)" class="list-group-item list-group-item-action" aria-checked="false">
+                        <li v-on:click="transferTo(m.id,)" class="list-group-item list-group-item-action" aria-checked="false">
                             <div style="display: flex;user-select:none">
                         <span style="width: 25%;">
                             <input v-on:click.stop type="checkbox" v-bind:value="m.id" v-bind:id="m.id" v-model="checked"/>

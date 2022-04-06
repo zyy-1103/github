@@ -11,7 +11,10 @@ Vue.createApp({
             y:[],
             d:[],
             msg:[{}],
-            showList:[]
+            showList:[],
+            sql1:'',
+            sql2:'',
+            isOver:1
         }
     },
     methods:{
@@ -27,7 +30,6 @@ Vue.createApp({
                 this.lb.push(this.la[index]);
             }
             this.la.splice(index, 1);
-            console.log(this.lb[0])
         },
         ta(x){
             let index=0
@@ -55,7 +57,8 @@ Vue.createApp({
                     }
                 }).then(res=>{
                     this.msg = res.data.data;
-                    console.log(this.msg)
+                    this.sql1=res.data.sql1;
+                    this.sql2=res.data.sql2;
                 })
             }
         },
@@ -80,11 +83,45 @@ Vue.createApp({
                 }
             }).then(res=>{
                 this.msg=res.data.data;
-                console.log(this.msg);
+                this.sql1=res.data.sql1;
+                this.sql2=res.data.sql2;
             })
+        },
+        download(){
+            this.isOver=0;
+            if (!this.sql1 || !this.sql2) {
+                alert("请先查询！");
+                return;
+            }
+            axios({
+                url: "download",
+                method:"post",
+                responseType: 'blob',
+                data:{
+                    sql1:this.sql1,
+                    sql2:this.sql2
+                }
+            }).then(res=>{
+                let data=res.data
+                let url = window.URL.createObjectURL(new Blob([data]))
+                let a = document.createElement('a')
+                a.style.display = 'none'
+                a.href = url
+                a.setAttribute('download','result.xls')
+                document.body.appendChild(a)
+                a.click() //执行下载
+                window.URL.revokeObjectURL(a.href) //释放url
+                document.body.removeChild(a) //释放标签
+                this.isOver=1;
+            });
         }
     },
     created(){
 
+    },
+    watch:{
+        isOver(){
+
+        }
     }
 }).mount("#all")

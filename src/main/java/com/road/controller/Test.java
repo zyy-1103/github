@@ -15,7 +15,6 @@ public class Test {
         response.setCharacterEncoding("UTF-8");
         PrintWriter writer = response.getWriter();
         FileReader fileReader = new FileReader("E:\\Java\\ssgl\\src\\main\\resources\\static\\test\\a.xls");
-
         while (fileReader.ready()) {
             writer.write(fileReader.read());
         }

@@ -47,6 +47,7 @@ const vm=Vue.createApp({
             })
         },
         update(){
+
             axios({
                 url:"update",
                 method:"post",
@@ -59,7 +60,7 @@ const vm=Vue.createApp({
                 if(res.data=="1"){
                     location.reload()
                 }else{
-                    alert("修改失败");
+                    alert(res.data);
                 }
             })
         },

@@ -89,7 +89,7 @@ class DljcxxControllerTest {
         object.put("hdmkdbz", "1");
         object.put("cdfbbz", "1");
         object.put("qd", "1");
-        object.put("fdzxlcount", "1");
+        object.put("fdkzxlcount", "1");
         object.put("lnbwcount", "1");
         mockMvc.perform(MockMvcRequestBuilders.post("/dljcxx/touch")
                         .content(object.toJSONString())

@@ -56,6 +56,7 @@ public class ShiroConfig {
         map.put("/img/**", "anon");
         map.put("/css/**", "anon");
         map.put("/**", "authc");
+//        map.put("/**", "anon");
         shiroFilterFactoryBean.setLoginUrl("/login.html");
         shiroFilterFactoryBean.setSuccessUrl("/");
         shiroFilterFactoryBean.setUnauthorizedUrl("/error.html");

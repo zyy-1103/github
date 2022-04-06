@@ -59,13 +59,13 @@ public class Dljcxx implements Serializable {
 
     private Integer xhdlkcount;
 
-    private Integer fdzxlcount;
+    private Integer fdkzxlcount;
 
     private Integer lnbwcount;
 
     private Integer glsscount;
 
-    private Integer glzdcount;
+    private Integer gjzdcount;
 
     private Integer rxhdxcount;
 
@@ -79,7 +79,7 @@ public class Dljcxx implements Serializable {
 
     private Integer tqlbcount;
 
-    private Integer aqzcount;
+    private Integer isglsscount;
 
     private Integer lsydbzcount;
 

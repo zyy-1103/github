@@ -49,13 +49,21 @@ const vm=Vue.createApp({
             })
         },
         update(){
+            let ori;
+            for (let i = 0; i < this.msg.length; i++) {
+                if (this.msg[i].id == this.checked[0]) {
+                    ori = this.msg[i][this.updateInfo];
+                    break;
+                }
+            }
             axios({
                 url:"update",
                 method:"post",
                 data:{
                     id:this.checked[0],
                     info:this.updateInfo,
-                    data:this.updateData
+                    data:this.updateData,
+                    oriData:ori
                 }
             }).then(res=>{
                 if(res.data=="1"){

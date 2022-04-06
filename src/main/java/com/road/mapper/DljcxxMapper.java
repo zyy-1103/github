@@ -38,9 +38,12 @@ public interface DljcxxMapper extends BaseMapper<Dljcxx> {
             "select ssjg from employee where id=#{id})))")
     List<Dljcxx> getBrigade(int id);
 
-    @Update("update dljcxx set ${info}=#{data} where id=#{id}")
-    int update(String id, String info, String data);
+    @Update("update dljcxx set ${info}=#{data} where id=#{id} and ${info}=#{oriData}")
+    int update(String id, String info, String data,String oriData);
 
     @Select("select * from dljcxx where ${info} like '%${data}%'")
     List<Dljcxx> search(String info, String data);
+
+    @Select("select ${info} from dljcxx where id=#{id}")
+    String selectSome(String id, String info);
 }
