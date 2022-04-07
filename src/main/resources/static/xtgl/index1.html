@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>系统管理选择</title>
+    <link rel="icon" href="../img/菠萝.png">
+    <meta charset="utf-8">
+    <script src="../js/jquery.min.js"></script>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <link href="../css/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="../js/jquery.cookie.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/vue.min.js"></script>
+    <script src="../js/axios.min.js"></script>
+</head>
+<body>
+<div class="row" style="cursor: pointer" id="all">
+    <div v-on:click="tf('./employee/employee.html')" class="card col-4 text-center" style="width: 18rem;">
+        <div class="card-body">
+            <h3 class="card-title">人员管理</h3>
+            <a href="#" class="btn btn-primary">进入</a>
+        </div><br>
+    </div>
+    <div v-on:click="tf('./org/org.html')" class="card col-4 text-center" style="width: 18rem;">
+        <div class="card-body">
+            <h3 class="card-title">组织机构管理</h3>
+            <a href="#" class="btn btn-primary">进入</a>
+        </div><br>
+    </div>
+    <div v-on:click="tf('./datadic/dic.html')" class="card col-4 text-center" style="width: 18rem;">
+        <div class="card-body">
+            <h3 class="card-title">数据字典大类管理</h3>
+            <a href="#" class="btn btn-primary">进入</a>
+        </div><br>
+    </div>
+    <div v-on:click="tf('./datadicitem/dicitem.html')" class="card col-4 text-center" style="width: 18rem;">
+        <div class="card-body">
+            <h3 class="card-title">数据字典管理</h3>
+            <a href="#" class="btn btn-primary">进入</a>
+        </div><br>
+    </div>
+    <div v-on:click="tf('./module/module.html')" class="card col-4 text-center" style="width: 18rem;">
+        <div class="card-body">
+            <h3 class="card-title">模块管理</h3>
+            <a href="#" class="btn btn-primary">进入</a>
+        </div><br>
+    </div>
+    <div v-on:click="tf('./role/role.html')" class="card col-4 text-center" style="width: 18rem;">
+        <div class="card-body">
+            <h3 class="card-title">角色管理</h3>
+            <a href="#" class="btn btn-primary">进入</a>
+        </div><br>
+    </div>
+    <div v-on:click="tf('./operator/operator.html')" class="card col-4 text-center" style="width: 18rem;">
+        <div class="card-body">
+            <h3 class="card-title">操作员管理</h3>
+            <a href="#" class="btn btn-primary">进入</a>
+        </div><br>
+    </div>
+    <div v-on:click="tf('./opemodule/opemodule.html')" class="card col-4 text-center" style="width: 18rem;">
+        <div class="card-body">
+            <h3 class="card-title">操作员-模块关联管理</h3>
+            <a href="#" class="btn btn-primary">进入</a>
+        </div><br>
+    </div>
+    <div v-on:click="tf('./rolemodule/rolemodule.html')" class="card col-4 text-center" style="width: 18rem;">
+        <div class="card-body">
+            <h3 class="card-title">角色-模块关联管理</h3>
+            <a href="#" class="btn btn-primary">进入</a>
+        </div><br>
+    </div>
+    <div v-on:click="tf('./operole/operole.html')" class="card col text-center" style="width: 18rem;">
+        <div class="card-body">
+            <h3 class="card-title">操作员-角色关联管理</h3>
+            <a href="#" class="btn btn-primary">进入</a>
+        </div><br>
+    </div>
+</div>
+
+<script>
+    Vue.createApp({
+        methods:{
+            tf(url){
+                location.href=url;
+            }
+        }
+    }).mount("#all")
+</script>
+</body>
+</html>

@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.concurrent.ExecutionException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -18,7 +20,7 @@ class SearchServiceTest {
     SearchService service;
 
     @Test
-    void getAll() {
+    void getAll() throws ExecutionException, InterruptedException {
         JSONObject object = new JSONObject();
         object.put("grade", "sszd");
         System.out.println(service.getAll(object.toJSONString()));

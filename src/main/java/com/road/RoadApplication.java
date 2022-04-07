@@ -9,6 +9,7 @@ public class RoadApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(RoadApplication.class, args);
+
     }
 
 }

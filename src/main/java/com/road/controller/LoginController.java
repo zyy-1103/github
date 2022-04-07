@@ -28,7 +28,6 @@ public class LoginController {
     OperatorMapper mapper;
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(@RequestBody Operator operator, HttpServletRequest request) {
-        System.out.println("login");
         if (StringUtils.isEmptyOrWhitespaceOnly(operator.getDlm()) || StringUtils.isEmptyOrWhitespaceOnly(operator.getMm())) {
             return "请输入账号密码";
         }

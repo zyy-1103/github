@@ -66,8 +66,11 @@ public class BeanConfiguration {
             map.keySet().iterator().forEachRemaining(e -> {
                 try {
                     if (commands.get(e).get() == null) {
-                        File file = new File(e);
-                        map.remove(e);
+                        File file = new File(map.get(e));
+                        boolean delete = file.delete();
+                        if (delete) {
+                            map.remove(e);
+                        }
                     }
                 } catch (InterruptedException | ExecutionException ex) {
                     ex.printStackTrace();
@@ -75,14 +78,6 @@ public class BeanConfiguration {
             });
         }, 0, 60, TimeUnit.SECONDS);
         return service;
-    }
-
-    @Bean
-    public Session session() throws IOException {
-        Connection connection = new Connection("39.105.175.79", 22);
-        connection.connect();
-        boolean root = connection.authenticateWithPassword("root", "Tf8364334@");
-        return connection.openSession();
     }
 
     @Bean

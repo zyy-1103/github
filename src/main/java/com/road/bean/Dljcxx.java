@@ -27,6 +27,14 @@ public class Dljcxx implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
+    private Double jd;
+
+    private Double wd;
+
+    private Double jde;
+
+    private Double wde;
+
     private String dlm;
 
     private String ssdd;

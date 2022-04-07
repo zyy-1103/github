@@ -143,6 +143,10 @@
                                         <option value="blr">办理人</option>
                                         <option value="ip">ip</option>
                                         <option value="bz">备注</option>
+                                        <option value="jd">起始经度</option>
+                                        <option value="wd">起始纬度</option>
+                                        <option value="jde">终点经度</option>
+                                        <option value="wde">终点纬度</option>
                                     </select>
                                     <input v-model="updateData" v-on:keydown.enter.stop="update()" type="text" class="form-control" id="f" placeholder="修改为">
                                     <input hidden>
@@ -206,6 +210,10 @@
                                     <input v-model="newMsg.sjsdbz" type="text" class="form-control" placeholder="设计速度备注">
                                     <input v-model="newMsg.bz" type="text" class="form-control" placeholder="备注">
                                     <input v-model="newMsg.fdx" type="text" class="form-control" placeholder="分道线条数">
+                                    <input v-model="newMsg.jd" type="text" class="form-control" placeholder="起始经度">
+                                    <input v-model="newMsg.wd" type="text" class="form-control" placeholder="起始纬度">
+                                    <input v-model="newMsg.jde" type="text" class="form-control" placeholder="终点经度">
+                                    <input v-model="newMsg.wde" type="text" class="form-control" placeholder="终点纬度">
                                     <input hidden>
                                 </div>
                             </form>
@@ -254,6 +262,8 @@
         </div>
     </div>
 </div>
+
+
 
 </body>
 <script src="../js/dljcxx.js"></script>

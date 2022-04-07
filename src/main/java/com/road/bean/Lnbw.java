@@ -2,7 +2,9 @@ package com.road.bean;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
@@ -17,6 +19,8 @@ import java.time.LocalDate;
  * @since 2022-03-16
  */
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @Setter
 public class Lnbw implements Serializable {
 

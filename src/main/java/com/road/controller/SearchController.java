@@ -25,7 +25,7 @@ public class SearchController {
 //    }
 
     @PostMapping(value = "searchAll")
-    public String getAll(@RequestBody String s) {
+    public String getAll(@RequestBody String s) throws ExecutionException, InterruptedException {
         return service.getAll(s);
     }
 

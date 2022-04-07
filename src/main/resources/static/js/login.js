@@ -9,7 +9,7 @@ const vm=Vue.createApp({
     methods:{
         login(){
             axios({
-                url: "http://localhost/login",
+                url: "/login",
                 method:"post",
                 data:{
                     dlm:this.dlm,

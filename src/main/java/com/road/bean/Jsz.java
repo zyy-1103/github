@@ -4,7 +4,10 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import java.time.LocalDate;
+
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -16,6 +19,8 @@ import lombok.Setter;
  * @since 2022-03-16
  */
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @Setter
 public class Jsz implements Serializable {
 

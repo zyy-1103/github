@@ -44,15 +44,18 @@ public class SearchService {
         response.setHeader("content-type", "application/octet-stream");
         response.setCharacterEncoding("UTF-8");
         executor.submit(()->{
+            FileReader fileReader = null;
+            FileOutputStream fileOutputStream = null;
+            StreamGobbler streamGobbler = null;
+            PrintWriter writer = response.getWriter();
             try {
                 JSONObject object = JSONObject.parseObject(s);
                 String sql1 = object.getString("sql1");
                 String sql2 = object.getString("sql2");
-                PrintWriter writer = response.getWriter();
-                FileReader fileReader;
                 String s1 = fileMap.get(sql1 + sql2);
                 if (s1 != null) {
                     fileReader = new FileReader(s1);
+                    commands.expire(sql1 + sql2, 60);
                 }else{
                     String fn = String.valueOf(System.currentTimeMillis());
                     String fileName=path + fn + ".xls";
@@ -61,6 +64,9 @@ public class SearchService {
                     fileMap.put(sql1 + sql2, winFileName);
                     //缓存
                     commands.setex(sql1 + sql2, 60, "0");
+//                    System.out.println("进行缓存");
+//                    commands.set(sql1 + sql2, "0");
+//                    commands.set("test", "1");
                     mapper.selectAll(sql);
 
                     Connection connection = new Connection("39.105.175.79", 22);
@@ -68,9 +74,9 @@ public class SearchService {
                     boolean root = connection.authenticateWithPassword("root", "Tf8364334@");
                     Session session = connection.openSession();
                     session.execCommand("cat "+fileName);
-                    StreamGobbler streamGobbler = new StreamGobbler(session.getStdout());
+                    streamGobbler = new StreamGobbler(session.getStdout());
                     File file = new File(winFileName);
-                    FileOutputStream fileOutputStream = new FileOutputStream(file);
+                    fileOutputStream = new FileOutputStream(file);
                     while (true) {
                         int read = streamGobbler.read();
                         if(read==-1)
@@ -79,6 +85,7 @@ public class SearchService {
                     }
                     producer.sendMessage("DelTopic", fileName);
                     fileReader = new FileReader(winFileName);
+                    fileOutputStream.close();
                 }
                 while (fileReader.ready()) {
                     writer.write(fileReader.read());
@@ -86,6 +93,17 @@ public class SearchService {
                 writer.flush();
             } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+                if (fileOutputStream != null) {
+                    fileOutputStream.close();
+                }
+                if (fileReader != null) {
+                    fileReader.close();
+                }
+                writer.close();
+                if (streamGobbler != null) {
+                    streamGobbler.close();
+                }
             }
             return 1;
         }).get();       //使用get会阻塞，不然用户收不到返回的文件
@@ -93,37 +111,40 @@ public class SearchService {
     }
 
 
-    public String getAll(String s) {
-        JSONObject object = JSONObject.parseObject(s);
-        String grade = object.getString("grade");
-        String name;
-        if (grade.equals("sszd")) {
-            name = "所属中队";
-        }else {
-            name = "所属大队";
-        }
-        StringBuilder builder = new StringBuilder("select '"+name+"' as "+grade);
-        hashMap.entrySet().iterator().forEachRemaining(e->{
-            builder.append(",'").append(e.getValue()).append("' as ").append(e.getKey());
-        });
-        builder.append(" union all ");
-        builder.append("select ifnull(").append(grade).append(",'UnKnow') as ").append(grade).append(",count(dljcxx.id) as dljcxx");
-        hashMap.keySet().iterator().forEachRemaining(e->{
-            if (!e.equals("dljcxx")) {
-                builder.append(",ifnull(sum(").append(e).append("count),0) as ").append(e);
+    public String getAll(String s) throws ExecutionException, InterruptedException {
+        return executor.submit(()->{
+            JSONObject object = JSONObject.parseObject(s);
+            String grade = object.getString("grade");
+            String name;
+            if (grade.equals("sszd")) {
+                name = "所属中队";
+            }else {
+                name = "所属大队";
             }
-        });
-        String sql1=builder.toString();
-        int len=sql1.length();
-        builder.append(" from dljcxx ");
-        builder.append(" group by (").append(grade).append(")");
-        String sql2 = builder.substring(len);
-        List<SearchResult> searchResults = mapper.selectAll(builder.toString());
-        object.clear();
-        object.put("sql1", sql1);
-        object.put("sql2", sql2);
-        object.put("data", searchResults);
-        return object.toJSONString();
+            StringBuilder builder = new StringBuilder("select '"+name+"' as "+grade);
+            hashMap.entrySet().iterator().forEachRemaining(e->{
+                builder.append(",'").append(e.getValue()).append("' as ").append(e.getKey());
+            });
+            builder.append(" union all ");
+            builder.append("select ifnull(").append(grade).append(",'UnKnow') as ").append(grade).append(",count(dljcxx.id) as dljcxx");
+            hashMap.keySet().iterator().forEachRemaining(e->{
+                if (!e.equals("dljcxx")) {
+                    builder.append(",ifnull(sum(").append(e).append("count),0) as ").append(e);
+                }
+            });
+            String sql1=builder.toString();
+            int len=sql1.length();
+            builder.append(" from dljcxx ");
+            builder.append(" group by (").append(grade).append(")");
+            String sql2 = builder.substring(len);
+            System.out.println(builder.toString());
+            List<SearchResult> searchResults = mapper.selectAll(builder.toString());
+            object.clear();
+            object.put("sql1", sql1);
+            object.put("sql2", sql2);
+            object.put("data", searchResults);
+            return object.toJSONString();
+        }).get();
     }
 
     public String getByCondition(String s) {

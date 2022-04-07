@@ -22,6 +22,6 @@ server:
 rocketmq:
   producer:
     group: springBootGroup
-  name-server: 127.0.0.1:9876
+  name-server: 39.105.175.79:9876
   server:
     port: 1100

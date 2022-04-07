@@ -3,17 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>详细</title>
-
     <link rel="shortcut icon" href="../../img/菠萝.png" >
-    <!-- Bootstrap -->
     <link type="text/css" rel="stylesheet" href="../../css/bootstrap.min.css" />
-
     <script src="../../js/jquery.min.js"></script>
     <script src="../../js/bootstrap.min.js"></script>
     <script src="../../js/bootstrap.bundle.min.js"></script>
-<!--    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>-->
     <script src="../../js/axios.min.js"></script>
     <script src="../../js/vue.min.js"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <style>
+        html,
+        body,
+        #container {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
     <style type="text/css">
         .head {
             width: 20%;
@@ -24,6 +33,45 @@
         .tail {
             width: 80%;
             margin-right: 10px;
+        }
+    </style>
+    <style>
+        html, body, #container {
+            height: 100%;
+            width: 100%;
+        }
+
+        .amap-icon img,
+        .amap-marker-content img{
+            width: 25px;
+            height: 34px;
+        }
+
+        .marker {
+            position: absolute;
+            top: -20px;
+            right: -118px;
+            color: #fff;
+            padding: 4px 10px;
+            box-shadow: 1px 1px 1px rgba(10, 10, 10, .2);
+            white-space: nowrap;
+            font-size: 12px;
+            font-family: "";
+            background-color: #25A5F7;
+            border-radius: 3px;
+        }
+
+        .input-card{
+            width: 18rem;
+            z-index: 170;
+        }
+
+        .input-card .btn{
+            margin-right: .8rem;
+        }
+
+        .input-card .btn:last-child{
+            margin-right: 0;
         }
     </style>
 </head>
@@ -80,7 +128,6 @@
         </div>
     </nav>
 </header>
-
 
 <div style="width: 100%" id="msg">
     <ul class="list-group list-group-horizontal">
@@ -243,8 +290,22 @@
         <li class="list-group-item head">道路代码</li>
         <li class="list-group-item tail">{{s.dldm}}</li>
     </ul>
-
 </div>
+
+<div id="container"></div>
+<script src="https://webapi.amap.com/maps?v=2.0&key=4f04f5d9036124c87c90491a6c90b9a4"></script>
 <script src="../../js/dljcxxxx.js"></script>
+<div class="input-card">
+    <h4>左击获取经纬度：</h4>
+    <div class="input-item">
+        <input type="text" readonly="true" id="lnglat">
+    </div>
+</div>
+
+<script>
+    let jd;
+    let wd;
+
+</script>
 </body>
 </html>

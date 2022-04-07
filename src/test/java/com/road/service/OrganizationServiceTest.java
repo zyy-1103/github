@@ -1,5 +1,7 @@
 package com.road.service;
 
+import com.road.bean.Organization;
+import com.road.bean.Parse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -27,4 +29,5 @@ class OrganizationServiceTest {
         String data = service.getData();
         System.out.println(data);
     }
+
 }
