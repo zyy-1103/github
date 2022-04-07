@@ -31,10 +31,13 @@ public interface OperatorMapper extends BaseMapper<Operator> {
     List<Operator> selectAll();
 
     @Update("update operator set ${info}=#{data} where id=#{id}")
-    int update(String id, String info, String data);
-
+    Integer update(String id, String info, String data);
 
     @Select("select * from operator where id=#{id}")
     Operator getById(String id);
+
+
+    @Select("select id from operator order by id desc limit 1")
+    Integer selectId();
 
 }

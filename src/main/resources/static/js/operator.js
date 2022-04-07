@@ -86,6 +86,7 @@ const vm=Vue.createApp({
                     operator:this.newMsg
                 }
             }).then(res=>{
+                alert(res.data)
                 if(res.data=="1"){
                     alert("操作成功");
                     location.reload()

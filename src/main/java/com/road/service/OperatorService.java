@@ -3,11 +3,15 @@ package com.road.service;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.road.bean.Operator;
+import com.road.bean.Operatorrole;
 import com.road.bean.Parse;
 import com.road.bean.Role;
 import com.road.mapper.JfoduleMapper;
 import com.road.mapper.OperatorMapper;
+import com.road.mapper.OperatorroleMapper;
 import com.road.mapper.RoleMapper;
+import com.road.utils.Roles;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +25,8 @@ public class OperatorService {
     private RoleMapper mapper1;
     @Autowired
     private JfoduleMapper mapper2;
+    @Autowired
+    OperatorroleMapper operatorroleMapper;
 
     public Operator getOperatorByName(String name) {
         System.out.println(name);
@@ -66,6 +72,16 @@ public class OperatorService {
 
     public String touch(Parse parse) {
         Operator operator = parse.getOperator();
-        return String.valueOf(mapper.insert(operator));
+        mapper.insert(operator);
+        for (Roles roles : Roles.values()) {
+            if (roles.name().equals(operator.getQldj())) {
+                Operatorrole operatorrole=new Operatorrole();
+                operatorrole.setCzyid(mapper.selectId());
+                operatorrole.setJsid(roles.ordinal() + 1);
+                operatorrole.setId(0);
+                operatorroleMapper.insert(operatorrole);
+            }
+        }
+        return "1";
     }
 }
