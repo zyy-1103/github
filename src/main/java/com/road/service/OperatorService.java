@@ -23,6 +23,7 @@ public class OperatorService {
     private JfoduleMapper mapper2;
 
     public Operator getOperatorByName(String name) {
+        System.out.println(name);
         int id = mapper.getIdByName(name);
         Operator operator = mapper.selectById(id);
         List<Role> roles = mapper1.getRolesByOperatorId(id);

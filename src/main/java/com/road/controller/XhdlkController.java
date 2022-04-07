@@ -2,6 +2,8 @@ package com.road.controller;
 
 
 import com.road.service.XhdlkService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Controller
 @RequestMapping("/dljcxx/xx/{ssdl}/")
+@RequiresPermissions("LOGIN")
 public class XhdlkController {
     @Autowired
     XhdlkService service;
@@ -26,6 +29,7 @@ public class XhdlkController {
         return service.getData(ssdl,tableName);
     }
 
+    @RequiresPermissions("INFO_DEL")
     @ResponseBody
     @RequestMapping(value = "del",method = RequestMethod.POST)
     public String del(@RequestBody String s) {

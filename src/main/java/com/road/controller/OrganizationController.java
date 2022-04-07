@@ -4,6 +4,7 @@ package com.road.controller;
 import com.road.bean.Parse;
 import com.road.mapper.OrganizationMapper;
 import com.road.service.OrganizationService;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Controller;
  */
 @Controller
 @RequestMapping("/xtgl/org")
+@RequiresRoles("ADMIN")
 public class OrganizationController {
     @Autowired
     OrganizationService service;

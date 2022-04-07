@@ -3,6 +3,7 @@ package com.road.controller;
 
 import com.road.bean.Parse;
 import com.road.service.RoleService;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Controller
 @RequestMapping("/xtgl/role")
+@RequiresRoles("ADMIN")
 public class RoleController {
 
     @Autowired
@@ -38,6 +40,12 @@ public class RoleController {
     @RequestMapping(value = "update",method = RequestMethod.POST)
     public String update(@RequestBody String s) {
         return service.update(s);
+    }
+
+    @ResponseBody
+    @GetMapping(value = "/t")
+    public String canOrNot() {
+        return "1";
     }
 
     @RequestMapping(value = "xx/{id}",method = RequestMethod.GET)

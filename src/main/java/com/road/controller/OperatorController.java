@@ -4,6 +4,7 @@ package com.road.controller;
 import com.road.bean.Parse;
 import com.road.service.OperatorService;
 import com.road.service.RoleService;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Controller;
  * @since 2022-03-16
  */
 @Controller
+@RequiresRoles("ADMIN")
 @RequestMapping("/xtgl/operator/")
 public class OperatorController {
     @Autowired

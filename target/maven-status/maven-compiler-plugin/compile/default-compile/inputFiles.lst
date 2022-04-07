@@ -2,6 +2,7 @@ E:\Java\ssgl\src\main\java\com\road\bean\Tqlb.java
 E:\Java\ssgl\src\main\java\com\road\service\CustomRealm.java
 E:\Java\ssgl\src\main\java\com\road\bean\Jzwcrk.java
 E:\Java\ssgl\src\main\java\com\road\service\DljcxxService.java
+E:\Java\ssgl\src\main\java\com\road\mapper\BzpMapper.java
 E:\Java\ssgl\src\main\java\com\road\bean\Glss.java
 E:\Java\ssgl\src\main\java\com\road\controller\DljcxxController.java
 E:\Java\ssgl\src\main\java\com\road\service\OperatorModuleService.java
@@ -13,12 +14,15 @@ E:\Java\ssgl\src\main\java\com\road\service\DataDicItemService.java
 E:\Java\ssgl\src\main\java\com\road\controller\DatadictionaryController.java
 E:\Java\ssgl\src\main\java\com\road\mapper\OperatorroleMapper.java
 E:\Java\ssgl\src\main\java\com\road\bean\Rxhdx.java
+E:\Java\ssgl\src\main\java\com\road\service\SpringConsumer.java
 E:\Java\ssgl\src\main\java\com\road\RoadApplication.java
 E:\Java\ssgl\src\main\java\com\road\service\DataDicService.java
 E:\Java\ssgl\src\main\java\com\road\controller\OrganizationController.java
 E:\Java\ssgl\src\main\java\com\road\controller\OperatorController.java
 E:\Java\ssgl\src\main\java\com\road\bean\Dljcxx.java
 E:\Java\ssgl\src\main\java\com\road\bean\RoleModule.java
+E:\Java\ssgl\src\main\java\com\road\mapper\JszMapper.java
+E:\Java\ssgl\src\main\java\com\road\utils\RandomUtil.java
 E:\Java\ssgl\src\main\java\com\road\mapper\SearchMapper.java
 E:\Java\ssgl\src\main\java\com\road\service\XhdlkService.java
 E:\Java\ssgl\src\main\java\com\road\bean\Jfodule.java
@@ -51,6 +55,7 @@ E:\Java\ssgl\src\main\java\com\road\mapper\OperatorMapper.java
 E:\Java\ssgl\src\main\java\com\road\bean\Role.java
 E:\Java\ssgl\src\main\java\com\road\bean\Organization.java
 E:\Java\ssgl\src\main\java\com\road\controller\Test.java
+E:\Java\ssgl\src\main\java\com\road\mapper\LnbwMapper.java
 E:\Java\ssgl\src\main\java\com\road\bean\Jsz.java
 E:\Java\ssgl\src\main\java\com\road\bean\Lnbw.java
 E:\Java\ssgl\src\main\java\com\road\controller\RoleModuleController.java
@@ -63,6 +68,7 @@ E:\Java\ssgl\src\main\java\com\road\utils\JsonToObject.java
 E:\Java\ssgl\src\main\java\com\road\bean\Parse.java
 E:\Java\ssgl\src\main\java\com\road\mapper\EmployeeMapper.java
 E:\Java\ssgl\src\main\java\com\road\bean\Operator.java
+E:\Java\ssgl\src\main\java\com\road\controller\MQController.java
 E:\Java\ssgl\src\main\java\com\road\bean\Isglss.java
 E:\Java\ssgl\src\main\java\com\road\controller\XhdlkController.java
 E:\Java\ssgl\src\main\java\com\road\configuration\AllExceptionHandler.java
@@ -76,6 +82,7 @@ E:\Java\ssgl\src\main\java\com\road\controller\EmployeeController.java
 E:\Java\ssgl\src\main\java\com\road\mapper\RoleMapper.java
 E:\Java\ssgl\src\main\java\com\road\service\OperatorroleService.java
 E:\Java\ssgl\src\main\java\com\road\mapper\RoleModuleMapper.java
+E:\Java\ssgl\src\main\java\com\road\service\SpringProducer.java
 E:\Java\ssgl\src\main\java\com\road\mapper\DljcxxMapper.java
 E:\Java\ssgl\src\main\java\com\road\service\OrganizationService.java
 E:\Java\ssgl\src\main\java\com\road\utils\Roles.java

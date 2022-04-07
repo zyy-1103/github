@@ -3,6 +3,7 @@ package com.road.controller;
 
 import com.road.bean.Parse;
 import com.road.service.DataDicItemService;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
  * @author sky
  * @since 2022-03-16
  */
+@RequiresRoles("ADMIN")
 @Controller
 @RequestMapping("/xtgl/datadicitem")
 public class DatadictionaryitemController {

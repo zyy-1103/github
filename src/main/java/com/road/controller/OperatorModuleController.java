@@ -5,6 +5,7 @@ import com.road.bean.OperatorModule;
 import com.road.bean.Parse;
 import com.road.service.OperatorModuleService;
 import com.road.service.OperatorService;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Controller;
  */
 @Controller
 @RequestMapping("/xtgl/opemodule")
+@RequiresRoles("ADMIN")
 public class OperatorModuleController {
     @Autowired
     OperatorModuleService service;

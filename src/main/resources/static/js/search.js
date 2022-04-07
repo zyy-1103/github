@@ -117,7 +117,14 @@ Vue.createApp({
         }
     },
     created(){
-
+        axios({
+            url: "/search/t",
+        }).then(res=>{
+            if (res.data != "1") {
+                alert(res.data);
+                history.back();
+            }
+        })
     },
     watch:{
         isOver(){

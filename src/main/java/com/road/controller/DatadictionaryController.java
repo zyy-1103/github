@@ -3,6 +3,8 @@ package com.road.controller;
 
 import com.road.bean.Parse;
 import com.road.service.DataDicService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.ParameterResolutionDelegate;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Controller;
  */
 @Controller
 @RequestMapping("/xtgl/datadic")
+@RequiresRoles("ADMIN")
 public class DatadictionaryController {
     @Autowired
     DataDicService service;

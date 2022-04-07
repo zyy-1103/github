@@ -2,6 +2,8 @@ package com.road.controller;
 
 
 import com.road.service.EmployeeService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Controller;
  * @since 2022-03-16
  */
 @Controller
+@RequiresRoles("ADMIN")
 @RequestMapping("/xtgl/employee")
 public class EmployeeController {
     @Autowired

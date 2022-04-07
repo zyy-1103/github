@@ -3,6 +3,8 @@ package com.road.controller;
 import com.road.service.SearchProducer;
 import com.road.service.SearchService;
 import org.apache.ibatis.annotations.Param;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +13,7 @@ import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
 @RestController
+@RequiresPermissions("DATA_STATISTICS")
 @RequestMapping(value = "/search/")
 public class SearchController {
 //    @Autowired
@@ -27,6 +30,12 @@ public class SearchController {
     @PostMapping(value = "searchAll")
     public String getAll(@RequestBody String s) throws ExecutionException, InterruptedException {
         return service.getAll(s);
+    }
+
+    @GetMapping("/t")
+    @ResponseBody
+    public String canOrNot() {
+        return "1";
     }
 
     @PostMapping(value = "searchCon")

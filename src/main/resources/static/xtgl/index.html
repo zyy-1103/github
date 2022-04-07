@@ -378,6 +378,7 @@ System </a>
 </script>
 <script data-minify="1" type='text/javascript' src='https://colorlibhub.com/shapely/wp-content/cache/min/59/shapely/wp-content/plugins/jetpack/jetpack_vendor/automattic/jetpack-lazy-images/dist/lazy-images.js?ver=1647860538' id='jetpack-lazy-images-js' defer></script>
 <script>window.GA_ID='G-SEKJ4E9T4H'</script><script data-minify="1" src='https://colorlibhub.com/shapely/wp-content/cache/min/59/shapely/wp-content/plugins/flying-analytics/js/gtagv4.js?ver=1647860538' defer></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-SEKJ4E9T4H');</script><script src='https://stats.wp.com/e-202214.js' defer></script>
+<script src="../js/axios.min.js"></script>
 <script>
     _stq = window._stq || [];
     _stq.push([ 'view', {v:'ext',j:'1:10.8',blog:'191685220',post:'703',tz:'0',srv:'colorlibhub.com'} ]);
@@ -389,6 +390,16 @@ System </a>
             tf(url){
                 location.href=url;
             }
+        },
+        created(){
+            axios({
+                url:"/xtgl/role/t"
+            }).then(res=>{
+                if (res.data != "1") {
+                    alert(res.data)
+                    history.back();
+                }
+            })
         }
     }).mount("#all")
 </script>
