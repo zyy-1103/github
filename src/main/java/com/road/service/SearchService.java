@@ -59,7 +59,7 @@ public class SearchService {
                 }else{
                     String fn = String.valueOf(System.currentTimeMillis());
                     String fileName=path + fn + ".xls";
-                    String winFileName = "C:\\" + fn + ".xls";
+                    String winFileName = "D:\\" + fn + ".xls";
                     String sql = sql1 + " into outfile \""+fileName+ "\" " + sql2;
                     fileMap.put(sql1 + sql2, winFileName);
                     //缓存
